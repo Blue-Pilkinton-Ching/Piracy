@@ -1,0 +1,184 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8effbd1b8d5ecdf409a57c9b7d616a1b, type: 3}
+  m_Name: HeadBobSettings
+  m_EditorClassIdentifier: 
+  BobHeight:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: -0.16047867
+      outSlope: -0.16047867
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: -0.16047867
+      inSlope: -0.16047867
+      outSlope: -0.16047867
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  BobSpeed:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 20.760933
+      outSlope: 20.760933
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 20.760933
+      inSlope: 20.760933
+      outSlope: 20.760933
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  XBobAmount:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.023188405
+      inSlope: 0.031868126
+      outSlope: 0.031868126
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0.05505653
+      inSlope: 0.031868126
+      outSlope: 0.031868126
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  YBobAmount:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.041062806
+      inSlope: 0.04328085
+      outSlope: 0.04328085
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0.08434366
+      inSlope: 0.04328085
+      outSlope: 0.04328085
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  DutchBobAmount:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0.28165162
+      outSlope: 0.28165162
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.08576052
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1.706004
+      outSlope: 1.706004
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.056634307
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  PanBobAmount:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0.45243785
+      outSlope: 0.45243785
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.09354715
+    - serializedVersion: 3
+      time: 0.9919227
+      value: 1.3248098
+      inSlope: 4.211548
+      outSlope: 4.211548
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.061302774
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  TiltBobAmount:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1.2066373
+      inSlope: -3.317059
+      outSlope: -3.317059
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.051779937
+    - serializedVersion: 3
+      time: 1
+      value: 0.016908228
+      inSlope: -0.15533505
+      outSlope: -0.15533505
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.08090615
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  TiltBobOnSecondFootstep: 0
+  BobBlendTime: 0.5
