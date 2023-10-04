@@ -17,19 +17,17 @@ using Unity.Services.Vivox;
 public class NetworkHelper : MonoBehaviour
 {
     public Action<Exception> OnConnectionError;
-    public Lobby Lobby {get; private set;} = null;
-    public Allocation RelayAllocation {get; private set;} = null;
-    public JoinAllocation RelayJoinAllocation {get; private set;} = null;
-
-    [SerializeField] private NetworkedClientManager networkedClientManagerPrefab;
+    public Lobby Lobby { get; private set; } = null;
+    public Allocation RelayAllocation { get; private set; } = null;
+    public JoinAllocation RelayJoinAllocation { get; private set; } = null;
 
     string joinCodeID = "JoinCode";
     string guidID = "GUID";
     string seedID = "Seed";
-    string difficultyID = "Difficulty";
     bool signedIn = false;
 
-    private void Awake() {
+    private void Awake()
+    {
         DontDestroyOnLoad(this);
 
         ScenelessDependencies.Singleton.NetworkManager.OnClientConnectedCallback += OnClientConnected;
@@ -37,13 +35,7 @@ public class NetworkHelper : MonoBehaviour
 
     private void OnClientConnected(ulong id)
     {
-        Debug.Log("Client: " + id.ToString() + " Connected!");
-
-        if (NetworkManager.Singleton.IsServer)
-        {
-            GameObject go = Instantiate(networkedClientManagerPrefab.gameObject);
-            go.GetComponent<NetworkObject>().SpawnWithOwnership(id);
-        }
+        Debug.Log("Client " + id + " connected!");
     }
 
     private void ConnectionError(Exception ex)
@@ -51,8 +43,9 @@ public class NetworkHelper : MonoBehaviour
         Debug.LogWarning(ex);
     }
 
-    public async Task<bool> AuthenticatePlayer(){
-        
+    public async Task<bool> AuthenticatePlayer()
+    {
+
         if (signedIn)
         {
             return true;
@@ -64,12 +57,12 @@ public class NetworkHelper : MonoBehaviour
 
         var options = new InitializationOptions();
 
-        // Uncomment this line of production
+        // Uncomment this line in production
         //options.SetProfile("Profile");
 
-        // Comment this line of production
+        // Comment this line in production
         options.SetProfile(UnityEngine.Random.Range(int.MinValue, int.MaxValue).ToString());
-        
+
         try
         {
             await UnityServices.InitializeAsync(options);
@@ -93,7 +86,8 @@ public class NetworkHelper : MonoBehaviour
         return true;
     }
 
-    public async Task<bool> JoinRandom() {
+    public async Task<bool> JoinRandom()
+    {
         return await JoinAsClient(true);
     }
 
@@ -158,8 +152,7 @@ public class NetworkHelper : MonoBehaviour
             RelayJoinAllocation.HostConnectionData);
 
         ScenelessDependencies.Singleton.SetGameSettings(
-            new GameSettings(Enum.Parse<GameSettings.DifficultyOptions>(Lobby.Data[difficultyID].Value), 
-            int.Parse(Lobby.Data[seedID].Value)));
+            new GameSettings(int.Parse(Lobby.Data[seedID].Value)));
 
         JoinNewVivoxChannel();
 
@@ -170,8 +163,8 @@ public class NetworkHelper : MonoBehaviour
 
     public async Task<bool> Host(bool isPrivate)
     {
-        ScenelessDependencies.Singleton.SetGameSettings(new GameSettings(GameSettings.DifficultyOptions.Normal, UnityEngine.Random.Range(int.MinValue, int.MaxValue)));
-        
+        ScenelessDependencies.Singleton.SetGameSettings(new GameSettings(UnityEngine.Random.Range(int.MinValue, int.MaxValue)));
+
         Debug.Log("Creating Relay Allocation");
 
         try
@@ -200,11 +193,12 @@ public class NetworkHelper : MonoBehaviour
 
         CreateLobbyOptions options = new CreateLobbyOptions();
 
-        Dictionary<string, DataObject> lobbyOptionsData = new();
-        lobbyOptionsData.Add(difficultyID, new DataObject(visibility: DataObject.VisibilityOptions.Public, value: ScenelessDependencies.Singleton.GameSettings.Difficulty.ToString()));
-        lobbyOptionsData.Add(seedID, new DataObject(visibility: DataObject.VisibilityOptions.Public, value: ScenelessDependencies.Singleton.GameSettings.Seed.ToString()));
-        lobbyOptionsData.Add(joinCodeID, new DataObject(visibility: DataObject.VisibilityOptions.Public, value: joinCode));
-        lobbyOptionsData.Add(guidID, new DataObject(visibility: DataObject.VisibilityOptions.Public, value: Guid.NewGuid().ToString()));
+        Dictionary<string, DataObject> lobbyOptionsData = new()
+        {
+          { seedID, new DataObject(visibility: DataObject.VisibilityOptions.Public, value: ScenelessDependencies.Singleton.GameSettings.Seed.ToString()) },
+          { joinCodeID, new DataObject(visibility: DataObject.VisibilityOptions.Public, value: joinCode) },
+          { guidID, new DataObject(visibility: DataObject.VisibilityOptions.Public, value: Guid.NewGuid().ToString()) }
+        };
         options.Data = lobbyOptionsData;
         options.IsPrivate = isPrivate;
 
@@ -222,10 +216,10 @@ public class NetworkHelper : MonoBehaviour
 
         Debug.Log("Lobby Code: " + Lobby.LobbyCode);
 
-        ScenelessDependencies.Singleton.UnityTransport.SetHostRelayData(RelayAllocation.RelayServer.IpV4, 
-            (ushort)RelayAllocation.RelayServer.Port, 
-            RelayAllocation.AllocationIdBytes, 
-            RelayAllocation.Key, 
+        ScenelessDependencies.Singleton.UnityTransport.SetHostRelayData(RelayAllocation.RelayServer.IpV4,
+            (ushort)RelayAllocation.RelayServer.Port,
+            RelayAllocation.AllocationIdBytes,
+            RelayAllocation.Key,
             RelayAllocation.ConnectionData);
 
 
@@ -235,7 +229,7 @@ public class NetworkHelper : MonoBehaviour
 
         return true;
     }
-    private void JoinNewVivoxChannel() 
+    private void JoinNewVivoxChannel()
     {
         ScenelessDependencies.Singleton.VivoxManager.JoinChannelWhenReady(Lobby.Data[guidID].Value);
     }

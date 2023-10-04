@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1920
     height: 989
   m_ShowMode: 4
-  m_Title: Hierarchy
+  m_Title: Console
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 321}
   m_MaxSize: {x: 10000, y: 10000}
@@ -119,7 +119,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 103
+  controlID: 86
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -169,7 +169,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 50}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 40
+  controlID: 41
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -234,7 +234,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: ProjectBrowser
+  m_Name: ConsoleWindow
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
@@ -243,12 +243,12 @@ MonoBehaviour:
     y: 615
     width: 1457
     height: 324
-  m_MinSize: {x: 231, y: 271}
-  m_MaxSize: {x: 10001, y: 10021}
-  m_ActualView: {fileID: 16}
+  m_MinSize: {x: 101, y: 121}
+  m_MaxSize: {x: 4001, y: 4021}
+  m_ActualView: {fileID: 17}
   m_Panes:
-  - {fileID: 16}
   - {fileID: 17}
+  - {fileID: 16}
   - {fileID: 18}
   m_Selected: 0
   m_LastSelected: 1
@@ -271,8 +271,8 @@ MonoBehaviour:
     y: 0
     width: 463
     height: 939
-  m_MinSize: {x: 276, y: 71}
-  m_MaxSize: {x: 4001, y: 4021}
+  m_MinSize: {x: 275, y: 50}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 19}
   m_Panes:
   - {fileID: 19}
@@ -713,9 +713,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 521.8916, y: 227.6601, z: -30.98819}
+    m_Target: {x: 502.5, y: 286.5, z: 0}
     speed: 2
-    m_Value: {x: 521.8916, y: 227.6601, z: -30.98819}
+    m_Value: {x: 502.5, y: 286.5, z: 0}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -763,11 +763,11 @@ MonoBehaviour:
   m_Rotation:
     m_Target: {x: -0.17946772, y: -0.17224614, z: 0.031930104, w: -0.9680468}
     speed: 2
-    m_Value: {x: -0.17946772, y: -0.17224613, z: 0.031930104, w: -0.9680467}
+    m_Value: {x: -0.1794667, y: -0.17224516, z: 0.03192992, w: -0.96804124}
   m_Size:
-    m_Target: 217.79362
+    m_Target: 19.023876
     speed: 2
-    m_Value: 217.79362
+    m_Value: 19.023876
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -830,9 +830,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: ce880000
+      m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 86faffff
+      m_ExpandedIDs: 68dbffffaae2ffffaee2ffffb2e2ffff36f9ffff108c0000188c0000248c00002a8c0000428c0000628c0000668c00007a8c0000968c0000bc8c0000068d00004e8d00006c8d0000a08d0000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -1675,7 +1675,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets
+    - Assets/My Stuff/Scripts/UI and Menu/Buttons
     m_Globs: []
     m_OriginalText: 
     m_ImportLogFlags: 0
@@ -1683,16 +1683,16 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets
+  - Assets/My Stuff/Scripts/UI and Menu/Buttons
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\bluep\OneDrive\Documents\Unity Projects\Piracy\Piracy
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 8a8f0000
-    m_LastClickedID: 36746
-    m_ExpandedIDs: 000000008a8f00008c8f00008e8f00009c8f000000ca9a3b
+    m_SelectedIDs: f2b50000
+    m_LastClickedID: 46578
+    m_ExpandedIDs: 00000000ce8f0000d08f0000d28f00002a95000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1720,7 +1720,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 000000008a8f00008c8f00008e8f0000
+    m_ExpandedIDs: 00000000ce8f0000d08f0000d28f0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1747,7 +1747,7 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 0
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c6230000
     m_RenameOverlay:
       m_UserAcceptedRename: 0

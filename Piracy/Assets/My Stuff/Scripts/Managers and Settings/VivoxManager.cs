@@ -16,7 +16,7 @@ public class VivoxManager : MonoBehaviour
     bool clientInitialized = false;
     string channelName;
     TimeSpan expirationTime = TimeSpan.FromSeconds(90);
-    VivoxUnity.Client client;
+    Client client;
     ILoginSession loginSession;
     IChannelSession channelSession;
     AccountId accountId;

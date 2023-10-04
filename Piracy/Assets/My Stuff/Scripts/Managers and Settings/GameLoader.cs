@@ -33,19 +33,5 @@ public class GameLoader : MonoBehaviour
             Debug.LogError("One or more clients timed out during scene loading");
             return;
         }
-
-        if (sceneName == ScenelessDependencies.Singleton.SharedKeys.OrphangeSceneName && clientsCompleted.Count == 2)
-        {
-            Debug.Log("All Clients succesfully connected to " + sceneName + " scene");
-
-            GameObject entity = Instantiate(entityPrefab);
-            entity.GetComponent<NetworkObject>().Spawn();
-
-            GameObject ownerPlayer = Instantiate(playerPrefab);
-            ownerPlayer.GetComponent<NetworkObject>().SpawnWithOwnership(ScenelessDependencies.Singleton.OwnerClientManager.OwnerClientId);
-
-            GameObject partnerPlayer = Instantiate(playerPrefab);
-            partnerPlayer.GetComponent<NetworkObject>().SpawnWithOwnership(ScenelessDependencies.Singleton.PartnerClientManager.OwnerClientId);
-        }
     }
 }

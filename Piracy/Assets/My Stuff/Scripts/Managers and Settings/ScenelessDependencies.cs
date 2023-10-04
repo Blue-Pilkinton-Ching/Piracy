@@ -23,19 +23,10 @@ public class ScenelessDependencies : MonoBehaviour
     [field: SerializeField] public AudioDeviceManager AudioDeviceManager { get; private set; }
     public GameSettings GameSettings { get; private set; }
 
-    [field: Header("Instantiated Managers & Controllers")]
-    public NetworkedClientManager OwnerClientManager { get; private set; }
-    public Action OnOwnerClientManagerChange;
-    public NetworkedClientManager PartnerClientManager { get; private set; }
-    public Action OnPartnerClientManagerChange;
-
     [field: Header("Settings")]
     [field: SerializeField] public SharedKeys SharedKeys { get; private set; }
     [field: SerializeField] public ButtonSettings ButtonSettings { get; private set; }
     [field: SerializeField] public VivoxCredentials VivoxCredentials { get; private set; }
-    [field: SerializeField] public HeadBobSettings HeadBobSettings { get; private set; }
-    [field: SerializeField] public PlayerMovementSettings PlayerMovementSettings { get; private set; }
-    [field: SerializeField] public EntityMovementSettings EntityMovementSettings { get; private set; }
 
     public void Awake()
     {
@@ -45,23 +36,5 @@ public class ScenelessDependencies : MonoBehaviour
     public void SetGameSettings(GameSettings GameSettings)
     {
         this.GameSettings = GameSettings;
-    }
-    public void SetOwnerClientManager(NetworkedClientManager instance) 
-    {
-        OwnerClientManager = instance;
-        try
-        {
-            OnOwnerClientManagerChange.Invoke();
-        }
-        catch {}
-    }
-    public void SetPartnerClientManager(NetworkedClientManager instance)
-    {
-        PartnerClientManager = instance;
-        try
-        {
-            OnPartnerClientManagerChange.Invoke();
-        }
-        catch {}
     }
 }
