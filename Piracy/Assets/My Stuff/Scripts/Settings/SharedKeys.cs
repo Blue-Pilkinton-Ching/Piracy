@@ -6,6 +6,6 @@ using UnityEngine;
 public class SharedKeys : ScriptableObject
 {
     public string UsernameSaveKey = "Username";
-    public string OrphangeSceneName = "Orphanage";
+    public string GameSceneName = "Game";
 
 }
