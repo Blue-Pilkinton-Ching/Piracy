@@ -24,7 +24,6 @@ public class MapGenerator : MonoBehaviour
 
         mapDataShader.SetFloat("chunkWidth", chunkWidth);
         mapDataShader.SetVector("chunkPosition", chunkPosition);
-        mapDataShader.SetFloat("chunkResolution", chunkResolution);
 
         ComputeBuffer buffer = new ComputeBuffer(chunkWidth * chunkWidth, 20);
 

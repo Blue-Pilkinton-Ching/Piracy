@@ -11,8 +11,7 @@ struct MapPoint
 RWStructuredBuffer<MapPoint> mapPoints;
 
 float chunkWidth;
-float chunkPosition;
-float chunkResolution;
+float2 chunkPosition;
 
 float rand(float2 uv)
 {
@@ -26,7 +25,7 @@ inline float2 unity_voronoi_noise_randomVector (float2 UV, float offset)
     return float2(sin(UV.y*+offset)*0.5+0.5, cos(UV.x*offset)*0.5+0.5);
 }
 
-void Unity_Voronoi_float(float2 UV, float AngleOffset, float CellDensity, out float softEdge, out float hardEdge)
+void Unity_Voronoi_float(float2 UV, float AngleOffset, float CellDensity, out float softEdge, out float3 color)
 {
     float2 g = floor(UV * CellDensity);
     float2 f = frac(UV * CellDensity);
@@ -44,8 +43,7 @@ void Unity_Voronoi_float(float2 UV, float AngleOffset, float CellDensity, out fl
                 res = float3(d, offset.x, offset.y);
 
                 softEdge = res.x;
-                hardEdge = rand(offset);
-            
+                color = rand(offset);
             }
         }
     }
@@ -57,11 +55,13 @@ void CSMain (uint3 id : SV_DispatchThreadID)
     MapPoint mapPoint;
 
     float softEdge;
-    float hardEdge;
+    float3 color;
 
-    Unity_Voronoi_float(float2(id.x / chunkWidth, id.y / chunkWidth), 1.1, 11, softEdge, hardEdge);
+    float2 UV = float2((id.x / chunkWidth) + chunkPosition.x, (id.y / chunkWidth) + chunkPosition.y);
 
-    float biome = (1 - smoothstep(0, 0.4, softEdge)) * hardEdge;
+    Unity_Voronoi_float(UV, 1.1, 11, softEdge, color);
+
+    float3 biome = (1 - smoothstep(0, 0.4, softEdge)) * color;
 
     mapPoint.color = biome;
 
