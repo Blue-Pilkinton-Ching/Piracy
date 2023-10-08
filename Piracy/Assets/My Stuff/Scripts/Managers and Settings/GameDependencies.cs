@@ -11,7 +11,13 @@ public class GameDependencies : MonoBehaviour
 
     [field: Header("Settings")]
 
-    float _;
+    [field: SerializeField] public MapGenSettings MapGenSettings { get; private set; }
+
+    public void SetMapGenSettings(MapGenSettings settings)
+    {
+        MapGenSettings = settings;
+    }
+
     public void Awake()
     {
         Singleton = this;

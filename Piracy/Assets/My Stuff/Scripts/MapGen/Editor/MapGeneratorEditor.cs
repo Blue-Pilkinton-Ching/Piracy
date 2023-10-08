@@ -11,10 +11,15 @@ public class MapGeneratorEditor : Editor
 
         if (GUILayout.Button("Generate"))
         {
-            Texture2D texture = new(500, 500);
+            int res = 512;
+
+            Texture2D texture = new(res, res);
+
+            texture.filterMode = FilterMode.Point;
+
             MapGenerator mapGenerator = (MapGenerator)target;
 
-            MapData mapData = mapGenerator.GenerateMap(500, Vector2.zero, 0.1f);
+            MapData mapData = mapGenerator.GenerateMap(res, Vector2.zero, 1);
 
             texture.SetPixels(mapData.ColorMap);
             texture.Apply();

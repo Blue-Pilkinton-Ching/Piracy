@@ -285,6 +285,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47c614ddf2d7b4e4c9bd7c47ad179520, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mapDataShader: {fileID: 7200000, guid: 4f919870423b6834f817a59eedccdb2d, type: 3}
 --- !u!1 &1527535151
 GameObject:
   m_ObjectHideFlags: 0
@@ -330,7 +331,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <MapGenerator>k__BackingField: {fileID: 1174526630}
-  mat: {fileID: 2100000, guid: 8b60cbb468086e5418774ebc79c695f4, type: 2}
+  <MapGenSettings>k__BackingField: {fileID: 0}
 --- !u!1 &1676059274
 GameObject:
   m_ObjectHideFlags: 0
