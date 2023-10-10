@@ -285,6 +285,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47c614ddf2d7b4e4c9bd7c47ad179520, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MapGenSettings: {fileID: 11400000, guid: 700b490bb96853c4aafe8bedb5bca1a2, type: 2}
   mapDataShader: {fileID: 7200000, guid: 4f919870423b6834f817a59eedccdb2d, type: 3}
 --- !u!1 &1527535151
 GameObject:

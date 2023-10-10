@@ -9,15 +9,10 @@ using Unity.VisualScripting;
 
 public class MapGenerator : MonoBehaviour
 {
-    public MapGenSettings MapGenSettings { get; private set; }
+    public MapGenSettings MapGenSettings;
 
     [SerializeField]
     private ComputeShader mapDataShader;
-
-    public void SetMapGenSettings(MapGenSettings mapGenSettings)
-    {
-        MapGenSettings = mapGenSettings;
-    }
     public MapData GenerateMap(int chunkWidth, Vector2 chunkPosition, float chunkResolution = 1)
     {
         chunkPosition *= chunkResolution;
@@ -25,16 +20,15 @@ public class MapGenerator : MonoBehaviour
         mapDataShader.SetFloat("chunkWidth", chunkWidth);
         mapDataShader.SetVector("chunkPosition", chunkPosition);
 
-        ComputeBuffer buffer = new ComputeBuffer(chunkWidth * chunkWidth, 20);
-
-        mapDataShader.SetBuffer(0, "mapPoints", buffer);
+        ComputeBuffer mapPointsBuffer = new ComputeBuffer(chunkWidth * chunkWidth, 20);
+        mapDataShader.SetBuffer(0, "mapPoints", mapPointsBuffer);
 
         mapDataShader.Dispatch(0, chunkWidth / 8, chunkWidth / 8, 1);
 
         BufferData[] bufferData = new BufferData[chunkWidth * chunkWidth];
 
-        buffer.GetData(bufferData);
-        buffer.Dispose();
+        mapPointsBuffer.GetData(bufferData);
+        mapPointsBuffer.Dispose();
 
         Color[] colors = new Color[bufferData.Length];
         for (var i = 0; i < bufferData.Length; i++)
