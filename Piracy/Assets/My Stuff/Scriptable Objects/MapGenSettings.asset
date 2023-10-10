@@ -12,42 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc5c0f32628f5f24c84ee319d9494c16, type: 3}
   m_Name: MapGenSettings
   m_EditorClassIdentifier: 
-  Biomes:
-  - Lucanarity: 1.5
-    Persistence: 1.5
-    Octaves: 5
-    Scale: 1
-    HeightMultiplier: 1
-    HeightScale:
+  OceanHeightCurve:
+    Curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
         value: 0
-        inSlope: 1
-        outSlope: 1
-        tangentMode: 34
+        inSlope: 0.0100658545
+        outSlope: 0.0100658545
+        tangentMode: 0
         weightedMode: 0
         inWeight: 0
-        outWeight: 0
+        outWeight: 0.06083618
       - serializedVersion: 3
         time: 1
         value: 1
-        inSlope: 1
-        outSlope: 1
-        tangentMode: 34
+        inSlope: 2.914198
+        outSlope: 2.914198
+        tangentMode: 0
         weightedMode: 0
-        inWeight: 0
+        inWeight: 0.050497353
         outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    MapColorHeight:
-    - Color: {r: 1, g: 0, b: 0.89736366, a: 0}
-      Value: 1
-    - Color: {r: 0, g: 0.07107782, b: 1, a: 0}
-      Value: 0.5
-    - Color: {r: 1, g: 0, b: 0, a: 0}
-      Value: 0.75
-    - Color: {r: 1, g: 1, b: 1, a: 0}
-      Value: 1
+    <Resolution>k__BackingField: 100

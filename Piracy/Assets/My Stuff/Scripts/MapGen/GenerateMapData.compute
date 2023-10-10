@@ -10,24 +10,29 @@ struct MapPoint
 
 RWStructuredBuffer<MapPoint> mapPoints;
 
-StructuredBuffer<float> biome1Height;
+StructuredBuffer<float> oceanHeight;
 
-float chunkWidth;
-float2 chunkPosition;
+const float chunkWidth;
+const float2 chunkPosition;
 
-float biomeCount = 3;
+const float biomeCount = 3;
+
+float Unity_Lerp_float(float A, float B, float T)
+{
+    return lerp(A, B, T);
+}
 
 float Unity_Posterize_float(float In, float Steps)
 {
     return floor(In / (1 / Steps)) * (1 / Steps);
 }
 
-float rand(float2 uv)
+float rand_float2(float2 uv)
 {
     return frac(sin(dot(uv, float2(12.98457, 78.2334))) * 43758.5453);
 }
 
-inline float2 unity_voronoi_noise_randomVector (float2 UV, float offset)
+float2 unity_voronoi_noise_randomVector (float2 UV, float offset)
 {
     float2x2 m = float2x2(15.27, 47.63, 99.41, 89.98);
     UV = frac(sin(mul(UV, m)) * 46839.32);
@@ -52,7 +57,7 @@ void Unity_Voronoi_float(float2 UV, float AngleOffset, float CellDensity, out fl
                 res = float3(d, offset.x, offset.y);
 
                 softEdge = res.x;
-                continent = float2(Unity_Posterize_float(rand(offset), biomeCount), 1);
+                continent = float2(Unity_Posterize_float(rand_float2(offset), biomeCount), 1);
             }
         }
     }
@@ -87,45 +92,62 @@ void Unity_GradientNoise_float(float2 UV, float Scale, out float Out)
 [numthreads(8,8,1)]
 void CSMain (uint3 id : SV_DispatchThreadID)
 {
-    MapPoint mapPoint;
+    // Contenents
 
     float softEdge;
     float2 continent;
 
-    float2 UV = float2((id.x / chunkWidth) + chunkPosition.x, (id.y / chunkWidth) + chunkPosition.y);
+    const float2 UV = float2((id.x / chunkWidth) + chunkPosition.x, (id.y / chunkWidth) + chunkPosition.y);
 
     Unity_Voronoi_float(UV, 1.1, 11, softEdge, continent);
 
     continent *= (1 - smoothstep(0.2, 0.4, softEdge));
 
+    // Perlin Noise
+
     float frequency = 1;
-    float persistance = 0.5;
-    float lacunarity = 1.9;
-    float scale = 3;
+    const float persistance = 0.5;
+    const float lacunarity = 1.9;
+    const float scale = 3;
     float amplitude = 1;
 
+    const float octaves = 7;
+    const float maxHeight = 2;
     float noiseHeight = 0;
-    float octaves = 7;
-    float maxHeight = 2;
 
     for (int i = 0; i < octaves; i++) {
-        float sampleX = UV.x * frequency;
-        float sampleY = UV.y * frequency;
+        const float sampleX = UV.x * frequency;
+        const float sampleY = UV.y * frequency;
 
         float perlinValue;
 
         Unity_GradientNoise_float(float2(sampleX, sampleY) * 2 - 1, scale, perlinValue);
         noiseHeight += perlinValue * amplitude;
-
+        
         amplitude *= persistance;
         frequency *= lacunarity;
     }
 
-    noiseHeight /= 2;
+    noiseHeight /= maxHeight;
 
-    mapPoint.color = noiseHeight;
+    // Height Calculation
 
-    mapPoint.height = 5;
+    noiseHeight = clamp(noiseHeight, 0, 1);
+
+    noiseHeight *= oceanHeight.Length;
+
+    const float upper = ceil(noiseHeight);
+    const float lower = floor(noiseHeight);
+
+    const float distortedHeight = Unity_Lerp_float(oceanHeight[lower], oceanHeight[upper], frac(noiseHeight));
+
+    // Map Points
+    
+    MapPoint mapPoint;
+
+    mapPoint.color = distortedHeight;
+
+    mapPoint.height = frac(noiseHeight);
     mapPoint.isSpawnPoint = 1;
 
     uint index = id.y * chunkWidth + id.x;

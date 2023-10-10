@@ -17,18 +17,38 @@ public class MapGenerator : MonoBehaviour
     {
         chunkPosition *= chunkResolution;
 
+        // Float Params
+
         mapDataShader.SetFloat("chunkWidth", chunkWidth);
         mapDataShader.SetVector("chunkPosition", chunkPosition);
+
+        // Map Points Buffer
 
         ComputeBuffer mapPointsBuffer = new ComputeBuffer(chunkWidth * chunkWidth, 20);
         mapDataShader.SetBuffer(0, "mapPoints", mapPointsBuffer);
 
+        // Ocean Height Buffer
+
+        int oceanHeightRes = MapGenSettings.OceanHeightCurve.Resolution;
+        ComputeBuffer oceanHeightBuffer = new ComputeBuffer(oceanHeightRes, sizeof(float) * oceanHeightRes);
+        mapDataShader.SetBuffer(0, "oceanHeight", oceanHeightBuffer);
+        oceanHeightBuffer.SetData(MapGenSettings.OceanHeightCurve.GetBake(oceanHeightRes));
+
+        // Dispatch Compute Shader
+
         mapDataShader.Dispatch(0, chunkWidth / 8, chunkWidth / 8, 1);
 
-        BufferData[] bufferData = new BufferData[chunkWidth * chunkWidth];
+        // Get Map Points Buffer
 
+        BufferData[] bufferData = new BufferData[chunkWidth * chunkWidth];
         mapPointsBuffer.GetData(bufferData);
+
+        // Dispose of Buffers
+
         mapPointsBuffer.Dispose();
+        oceanHeightBuffer.Dispose();
+
+        // Set Color
 
         Color[] colors = new Color[bufferData.Length];
         for (var i = 0; i < bufferData.Length; i++)
