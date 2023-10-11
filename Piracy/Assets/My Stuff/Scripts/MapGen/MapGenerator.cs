@@ -21,18 +21,12 @@ public class MapGenerator : MonoBehaviour
 
         mapDataShader.SetFloat("chunkWidth", chunkWidth);
         mapDataShader.SetVector("chunkPosition", chunkPosition);
+        mapDataShader.SetFloats("oceanHeight", MapGenSettings.OceanHeightCurve.GetBake(MapGenSettings.OceanHeightCurve.Resolution));
 
         // Map Points Buffer
 
         ComputeBuffer mapPointsBuffer = new ComputeBuffer(chunkWidth * chunkWidth, 20);
         mapDataShader.SetBuffer(0, "mapPoints", mapPointsBuffer);
-
-        // Ocean Height Buffer
-
-        int oceanHeightRes = MapGenSettings.OceanHeightCurve.Resolution;
-        ComputeBuffer oceanHeightBuffer = new ComputeBuffer(oceanHeightRes, sizeof(float) * oceanHeightRes);
-        mapDataShader.SetBuffer(0, "oceanHeight", oceanHeightBuffer);
-        oceanHeightBuffer.SetData(MapGenSettings.OceanHeightCurve.GetBake(oceanHeightRes));
 
         // Dispatch Compute Shader
 
@@ -46,7 +40,6 @@ public class MapGenerator : MonoBehaviour
         // Dispose of Buffers
 
         mapPointsBuffer.Dispose();
-        oceanHeightBuffer.Dispose();
 
         // Set Color
 
@@ -65,4 +58,8 @@ public class MapGenerator : MonoBehaviour
         public float isSpawnPoint;
     }
 
+    struct PerDrawData
+    {
+        public float _DebugValue;
+    }
 }

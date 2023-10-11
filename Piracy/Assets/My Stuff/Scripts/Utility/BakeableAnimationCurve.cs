@@ -12,7 +12,7 @@ public class BakeableAnimationCurves
     private bool baked = false;
 
     [field: SerializeField]
-    public int Resolution { get; private set; }
+    public int Resolution { get; private set; } = 100;
     public BakeableAnimationCurves(AnimationCurve curve, int resolution)
     {
         Curve = curve;
@@ -25,13 +25,16 @@ public class BakeableAnimationCurves
         {
             return bake;
         }
+        Resolution = resolution;
 
         bake = new float[resolution];
 
-        for (var i = 0; i < resolution; i++)
+        for (var i = 1; i < resolution; i++)
         {
-            float evalPoint = Curve.Evaluate(resolution * i);
+            float evalPoint = Curve.Evaluate((float)i / resolution);
             bake[i] = evalPoint;
+
+            Debug.Log(evalPoint);
         }
 
         return bake;

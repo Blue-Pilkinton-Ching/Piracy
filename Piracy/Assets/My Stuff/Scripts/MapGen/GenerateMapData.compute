@@ -10,7 +10,7 @@ struct MapPoint
 
 RWStructuredBuffer<MapPoint> mapPoints;
 
-StructuredBuffer<float> oceanHeight;
+const float oceanHeight[100];
 
 const float chunkWidth;
 const float2 chunkPosition;
@@ -132,23 +132,24 @@ void CSMain (uint3 id : SV_DispatchThreadID)
 
     // Height Calculation
 
-    noiseHeight = clamp(noiseHeight, 0, 1);
+    float height = saturate(noiseHeight);
 
-    noiseHeight *= oceanHeight.Length;
+    height *= oceanHeight.Length;
 
-    const float upper = ceil(noiseHeight);
-    const float lower = floor(noiseHeight);
+    const float upper = ceil(height);
+    const float lower = floor(height);
 
-    const float distortedHeight = Unity_Lerp_float(oceanHeight[lower], oceanHeight[upper], frac(noiseHeight));
+    //const float distortedHeight = Unity_Lerp_float(oceanHeight[lower], oceanHeight[upper], height / float(oceanHeight.Length));
 
     // Map Points
     
     MapPoint mapPoint;
 
-    mapPoint.color = distortedHeight;
+    mapPoint.color = height / 100;
+    //mapPoint.color = noiseHeight.xxx;
 
-    mapPoint.height = frac(noiseHeight);
-    mapPoint.isSpawnPoint = 1;
+    mapPoint.height = 0;
+    mapPoint.isSpawnPoint = 0;
 
     uint index = id.y * chunkWidth + id.x;
 
