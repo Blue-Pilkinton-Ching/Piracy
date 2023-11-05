@@ -9,13 +9,17 @@ struct MapPoint
 };
 
 RWStructuredBuffer<MapPoint> mapPoints;
+
 StructuredBuffer<float> oceanHeight;
+const float oceanHeightLength;
+
+StructuredBuffer<float> tropicsHeight;
+const float tropicsHeightLength;
 
 const float chunkWidth;
 const float2 chunkPosition;
-const float oceanHeightLength;
-
-const float biomeCount = 3;
+const float continentScale;
+const float biomeCount;
 
 float Unity_Lerp_float(float A, float B, float T)
 {
@@ -32,7 +36,7 @@ float rand_float2(float2 uv)
     return frac(sin(dot(uv, float2(12.98457, 78.2334))) * 43758.5453);
 }
 
-float2 unity_voronoi_noise_randomVector (float2 UV, float offset)
+float2 Unity_voronoi_noise_randomVector (float2 UV, float offset)
 {
     float2x2 m = float2x2(15.27, 47.63, 99.41, 89.98);
     UV = frac(sin(mul(UV, m)) * 46839.32);
@@ -50,7 +54,7 @@ void Unity_Voronoi_float(float2 UV, float AngleOffset, float CellDensity, out fl
         for(int x=-1; x<=1; x++)
         {
             float2 lattice = float2(x,y);
-            float2 offset = unity_voronoi_noise_randomVector(lattice + g, AngleOffset);
+            float2 offset = Unity_voronoi_noise_randomVector(lattice + g, AngleOffset);
             float d = distance(lattice + offset, f);
             if(d < res.x)
             {
@@ -63,7 +67,7 @@ void Unity_Voronoi_float(float2 UV, float AngleOffset, float CellDensity, out fl
     }
 }
 
-float2 unity_gradientNoise_dir(float2 p)
+float2 Unity_gradientNoise_dir(float2 p)
 {
     p = p % 289;
     float x = (34 * p.x + 1) * p.x % 289 + p.y;
@@ -72,38 +76,24 @@ float2 unity_gradientNoise_dir(float2 p)
     return normalize(float2(x - floor(x + 0.5), abs(x) - 0.5));
 }
 
-float unity_gradientNoise(float2 p)
+float Unity_gradientNoise(float2 p)
 {
     float2 ip = floor(p);
     float2 fp = frac(p);
-    float d00 = dot(unity_gradientNoise_dir(ip), fp);
-    float d01 = dot(unity_gradientNoise_dir(ip + float2(0, 1)), fp - float2(0, 1));
-    float d10 = dot(unity_gradientNoise_dir(ip + float2(1, 0)), fp - float2(1, 0));
-    float d11 = dot(unity_gradientNoise_dir(ip + float2(1, 1)), fp - float2(1, 1));
+    float d00 = dot(Unity_gradientNoise_dir(ip), fp);
+    float d01 = dot(Unity_gradientNoise_dir(ip + float2(0, 1)), fp - float2(0, 1));
+    float d10 = dot(Unity_gradientNoise_dir(ip + float2(1, 0)), fp - float2(1, 0));
+    float d11 = dot(Unity_gradientNoise_dir(ip + float2(1, 1)), fp - float2(1, 1));
     fp = fp * fp * fp * (fp * (fp * 6 - 15) + 10);
     return lerp(lerp(d00, d01, fp.y), lerp(d10, d11, fp.y), fp.x);
 }
 
 void Unity_GradientNoise_float(float2 UV, float Scale, out float Out)
 {
-    Out = unity_gradientNoise(UV * Scale) + 0.5;
+    Out = Unity_gradientNoise(UV * Scale) + 0.5;
 }
 
-[numthreads(8,8,1)]
-void CSMain (uint3 id : SV_DispatchThreadID)
-{
-    // Contenents
-
-    float softEdge;
-    float2 continent;
-
-    const float2 UV = float2((id.x / chunkWidth) + chunkPosition.x, (id.y / chunkWidth) + chunkPosition.y);
-
-    Unity_Voronoi_float(UV, 1.1, 11, softEdge, continent);
-
-    continent *= (1 - smoothstep(0.2, 0.4, softEdge));
-
-    // Perlin Noise
+float GenerateDistortedPerlinNoise(StructuredBuffer<float> heightCurve, float heightCurveLength, float2 UV){
 
     float frequency = 1;
     const float persistance = 0.5;
@@ -134,16 +124,35 @@ void CSMain (uint3 id : SV_DispatchThreadID)
 
     float height = saturate(noiseHeight);
 
-    const float upper = oceanHeight[ceil(height * oceanHeightLength)];
-    const float lower = oceanHeight[floor(height * oceanHeightLength)];
+    const float upper = heightCurve[ceil(height * heightCurveLength)];
+    const float lower = heightCurve[floor(height * heightCurveLength)];
 
-    const float distortedHeight = Unity_Lerp_float(upper, lower, frac(height * 100));
+    const float distortedHeight = Unity_Lerp_float(lower, upper, frac(height * heightCurveLength));
+
+    return distortedHeight;
+}
+
+[numthreads(8,8,1)]
+void CSMain (uint3 id : SV_DispatchThreadID)
+{
+    // Continents
+
+    float softEdge;
+    float2 continent;
+
+    const float2 UV = float2((id.x / chunkWidth) + chunkPosition.x, (id.y / chunkWidth) + chunkPosition.y);
+
+    Unity_Voronoi_float(UV * continentScale, 1.1, 11, softEdge, continent);
+
+    continent.y *= (1 - smoothstep(0 , 0.49, softEdge));
+
+    const float oceanHeightDistorted = GenerateDistortedPerlinNoise(oceanHeight, oceanHeightLength, UV);
 
     // Map Points
     
     MapPoint mapPoint;
 
-    mapPoint.color = distortedHeight;
+    mapPoint.color = oceanHeightDistorted;
 
     mapPoint.height = 0;
     mapPoint.isSpawnPoint = 0;
@@ -152,4 +161,3 @@ void CSMain (uint3 id : SV_DispatchThreadID)
 
     mapPoints[index] = mapPoint;
 }
-

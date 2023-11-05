@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class BakeableAnimationCurves
+public class BakeableAnimationCurve
 {
     [SerializeField]
     private AnimationCurve Curve;
@@ -12,7 +12,7 @@ public class BakeableAnimationCurves
 
     [field: SerializeField]
     public int Resolution { get; private set; } = 100;
-    public BakeableAnimationCurves(AnimationCurve curve, int resolution)
+    public BakeableAnimationCurve(AnimationCurve curve, int resolution)
     {
         Curve = curve;
         Resolution = resolution;

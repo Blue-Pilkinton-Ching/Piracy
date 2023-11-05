@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc5c0f32628f5f24c84ee319d9494c16, type: 3}
   m_Name: MapGenSettings
   m_EditorClassIdentifier: 
+  biomeScale: 0.1
+  biomeCount: 3
   OceanHeightCurve:
     Curve:
       serializedVersion: 2
@@ -37,4 +39,93 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    <Resolution>k__BackingField: 100
+    <Resolution>k__BackingField: 127
+  TropicsHeightCurve:
+    Curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.1990937
+        value: 0.34758157
+        inSlope: 0.42731357
+        outSlope: 0.42731357
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.371221
+        value: 0.34890786
+        inSlope: 0.3570255
+        outSlope: 0.3570255
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.6036184
+        value: 0.6982935
+        inSlope: 1.3122503
+        outSlope: 1.3122503
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.67196435
+        value: 0.5427222
+        inSlope: 0.71512425
+        outSlope: 0.71512425
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.8004758
+        value: 0.8525173
+        inSlope: -0.38608983
+        outSlope: -0.38608983
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.88055754
+        value: 0.5751644
+        inSlope: 1.6480285
+        outSlope: 1.6480285
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.9833673
+        value: 0.7758028
+        inSlope: 4.2922316
+        outSlope: 4.2922316
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    <Resolution>k__BackingField: 127
