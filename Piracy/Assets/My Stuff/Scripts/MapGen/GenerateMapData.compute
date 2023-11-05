@@ -9,11 +9,11 @@ struct MapPoint
 };
 
 RWStructuredBuffer<MapPoint> mapPoints;
-
-const float oceanHeight[100];
+StructuredBuffer<float> oceanHeight;
 
 const float chunkWidth;
 const float2 chunkPosition;
+const float oceanHeightLength;
 
 const float biomeCount = 3;
 
@@ -134,19 +134,16 @@ void CSMain (uint3 id : SV_DispatchThreadID)
 
     float height = saturate(noiseHeight);
 
-    height *= oceanHeight.Length;
+    const float upper = oceanHeight[ceil(height * oceanHeightLength)];
+    const float lower = oceanHeight[floor(height * oceanHeightLength)];
 
-    const float upper = ceil(height);
-    const float lower = floor(height);
-
-    //const float distortedHeight = Unity_Lerp_float(oceanHeight[lower], oceanHeight[upper], height / float(oceanHeight.Length));
+    const float distortedHeight = Unity_Lerp_float(upper, lower, frac(height * 100));
 
     // Map Points
     
     MapPoint mapPoint;
 
-    mapPoint.color = height / 100;
-    //mapPoint.color = noiseHeight.xxx;
+    mapPoint.color = distortedHeight;
 
     mapPoint.height = 0;
     mapPoint.isSpawnPoint = 0;

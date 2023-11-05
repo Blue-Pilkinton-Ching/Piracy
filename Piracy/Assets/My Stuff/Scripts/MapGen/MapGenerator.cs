@@ -6,6 +6,7 @@ using System.Linq;
 using Unity.Mathematics;
 using System;
 using Unity.VisualScripting;
+using UnityEditor.Rendering.Universal.ShaderGUI;
 
 public class MapGenerator : MonoBehaviour
 {
@@ -21,12 +22,21 @@ public class MapGenerator : MonoBehaviour
 
         mapDataShader.SetFloat("chunkWidth", chunkWidth);
         mapDataShader.SetVector("chunkPosition", chunkPosition);
-        mapDataShader.SetFloats("oceanHeight", MapGenSettings.OceanHeightCurve.GetBake(MapGenSettings.OceanHeightCurve.Resolution));
 
         // Map Points Buffer
 
         ComputeBuffer mapPointsBuffer = new ComputeBuffer(chunkWidth * chunkWidth, 20);
         mapDataShader.SetBuffer(0, "mapPoints", mapPointsBuffer);
+
+        // OceanHeight Buffer
+
+        float[] bake = MapGenSettings.OceanHeightCurve.CreateBake(MapGenSettings.OceanHeightCurve.Resolution);
+        mapDataShader.SetFloat("oceanHeightLength", bake.Length);
+
+        ComputeBuffer oceanHeightBuffer = new ComputeBuffer(bake.Length, bake.Length * sizeof(float));
+        mapDataShader.SetBuffer(0, "oceanHeight", oceanHeightBuffer);
+
+        oceanHeightBuffer.SetData(bake);
 
         // Dispatch Compute Shader
 

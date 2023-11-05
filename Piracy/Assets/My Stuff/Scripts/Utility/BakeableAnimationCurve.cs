@@ -9,7 +9,6 @@ public class BakeableAnimationCurves
     private AnimationCurve Curve;
 
     private float[] bake;
-    private bool baked = false;
 
     [field: SerializeField]
     public int Resolution { get; private set; } = 100;
@@ -19,22 +18,28 @@ public class BakeableAnimationCurves
         Resolution = resolution;
     }
 
-    public float[] GetBake(int resolution)
+    public float[] GetBake()
     {
-        if (baked)
+        if (bake.Length == 0)
         {
-            return bake;
+            Debug.LogError("Tried To Access Baked Curve Before Bake");
         }
+
+        return bake;
+    }
+
+    public float[] CreateBake(int resolution)
+    {
         Resolution = resolution;
 
         bake = new float[resolution];
+
+        bake[0] = Curve.Evaluate(0f);
 
         for (var i = 1; i < resolution; i++)
         {
             float evalPoint = Curve.Evaluate((float)i / resolution);
             bake[i] = evalPoint;
-
-            Debug.Log(evalPoint);
         }
 
         return bake;
